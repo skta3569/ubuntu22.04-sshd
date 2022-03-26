@@ -5,6 +5,7 @@ EXPOSE 22/tcp
 RUN set -xe \
     \
     && apt update && apt install -y \
+    git \
     openssh-server \
     && apt clean \
     && rm -rf /var/lib/apt/lists/* \
