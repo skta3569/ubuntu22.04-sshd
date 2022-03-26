@@ -1,8 +1,7 @@
-# このワークフローはGitHubによって認定されていないアクションを使用します。
-# それらはサードパーティによって提供され、
-# 別個の利用規約、プライバシーポリシー、
-# サポートドキュメンテーションが適用されます。
-
+# 参考ページ
+# https://docs.github.com/ja/actions/publishing-packages/publishing-docker-images
+#
+# 「IMAGE_NAME」でDockerHubにもGitHubにもプッシュしているが、自分の環境でたまたまアカウント名が一致しているから動いている。
 name: Create and publish a Docker image
 
 on:
@@ -11,7 +10,6 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  DOCKERHUB_NAMESPACE: skta3569
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
@@ -46,7 +44,7 @@ jobs:
             ${{ env.IMAGE_NAME }}
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - name: Build and push Docker image
+      - name: Build and push Docker images
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
