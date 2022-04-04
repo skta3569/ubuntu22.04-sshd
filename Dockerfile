@@ -1,6 +1,7 @@
 FROM ubuntu:22.04
 
 EXPOSE 22/tcp
+VOLUME [ "/remote" ]
 
 RUN set -xe \
     \
@@ -13,7 +14,14 @@ RUN set -xe \
 
 RUN set -xe \
     \
-    && useradd -m -s /bin/bash dev \
-    && echo "dev:dev" | chpasswd
+    && useradd -d /remote -p 'do not use password!!' -m -s /bin/bash remote \
+    # どうしてもパスワード認証が必要な時は↓の行を使う
+    # && echo "remote:remote" | chpasswd \ 
+    && su - remote -c 'mkdir -p ~/.ssh && touch ~/.ssh/authorized_keys'
 
-CMD [ "/usr/sbin/sshd", "-D" ]
+ADD entry.sh /entry.sh
+
+RUN set -xe \
+    && chmod 700 /entry.sh
+
+ENTRYPOINT [ "/entry.sh" ]
