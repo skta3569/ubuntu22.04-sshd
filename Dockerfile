@@ -8,9 +8,11 @@ RUN set -xe \
     && apt update && apt install -y \
     git \
     openssh-server \
+    language-pack-ja \
     && apt clean \
     && rm -rf /var/lib/apt/lists/* \
-    && mkdir /run/sshd
+    && mkdir /run/sshd \
+    && update-locale LANG=ja_JP.UTF-8
 
 RUN set -xe \
     \
